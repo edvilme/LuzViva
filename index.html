@@ -3,19 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+
+
+
   <title>Luz Viva</title>
   <style>
     body, html{
       margin: 0;
       padding: 0;
       font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
 
     #header{
       background: white;
       padding: 8px;
-      width: 100%;
+      width: 100vw;
       position: sticky;
       top: 0;
       box-sizing: border-box;
@@ -42,7 +50,7 @@
     }
 
     #hero{
-      width: 100%;
+      width: 100vw;
       height: 100vw;
       max-height: 80vh;
       margin: 0;
@@ -50,6 +58,55 @@
       background-position: center !important;
       transition-timing-function: ease-in-out;
       background-blend-mode: multiply;
+    }
+
+    #caption{
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-weight: 600;
+      font-style: italic;
+      font-size: 1.4em;
+      padding: 24px;
+      background: rgb(240,240,240);
+      width: 100%;
+      max-width: 800px;
+      margin: 24px 0px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    #caption:empty{
+      display: none;
+    }
+
+    section{
+      width: 100%;
+      padding: 24px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    section>h1{
+      font-size: 4em;
+      font-family: 'Fredericka the Great', cursive;
+      font-weight: 400;
+    }
+
+    section>*{
+      max-width: 800px;
+      width: 100%;
+    }
+    section>span{
+      font-size: 1.5em;
+    }
+
+
+    #info{
+      justify-content: center;
+      min-height: 60vh;
+      background: #F50087;
+      color: white;
     }
 
   </style>
@@ -70,7 +127,7 @@
 
   <div id="hero"></div>
 
-
+  <div id="caption"></div>
 
   <script>
     async function getInstagramPosts(url){
@@ -79,7 +136,7 @@
       let json = html.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1);
       let posts = JSON.parse(json).entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.edges.map(l=>({
         url: l.node.display_url,
-        caption: l.node.edge_media_to_caption.edges[0].node.text
+        caption: l.node.edge_media_to_caption.edges[0].node.text ? l.node.edge_media_to_caption.edges[0].node.text: 'as'
       }))
 
 
@@ -89,19 +146,20 @@
 
 
     getInstagramPosts('luzviva.mx').then(data=>{
-
-      cycleBackgrounds( document.querySelector("#hero"), data.map(l=>l.url) )
-
+      cycleBackgrounds( document.querySelector("#hero"), document.querySelector("#caption"), data )
     })
 
 
-    function cycleBackgrounds(element, backgrounds){
-      element.style.background = `url('${backgrounds[0]}') rgba(0,0,0,0.7)`
+    function cycleBackgrounds(background, caption, backgrounds){
+      background.style.background = `url('${backgrounds[0].url}') rgba(0,0,0,0.7)`
+      caption.innerHTML = backgrounds[0].caption
 
       let i = 1
       setInterval(()=>{
         if(i >= backgrounds.length){ i = 0 }
-        element.style.background = `url('${backgrounds[i]}') rgba(0,0,0,0.7)`
+        background.style.background = `url('${backgrounds[i].url}') rgba(0,0,0,0.7)`
+        caption.innerHTML = backgrounds[i].caption
+
         i++
       }, 4000)
     }
@@ -111,7 +169,15 @@
   </script>
 
 
-  <h1>Work in progress...</h1>
+  <section id="info">
+    <h1>Quienes somos</h1>
+    <span>
+      Pintamos objetos de la vida cotidiana en los que se plasmamos algo especial para la persona, la mayoría de ellos son personalizados y acompañan al dueño en sus día a día. Nuestros objetos van desde fundas de celular, de computadora, llaveros, termos, lazy susans, entre otras cosas.
+    </span>
+
+
+  </section>
+
 
 </body>
 </html>
