@@ -1,10 +1,117 @@
-<html>
-  <head>
-  </head>
-  <body>
-    <h1>
-      Luz Viva
-    </h1>
-    Lorem ipsum dolor...
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luz Viva</title>
+  <style>
+    body, html{
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    #header{
+      background: white;
+      padding: 8px;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      box-sizing: border-box;
+      display: flex;
+    }
+
+    #header > img{
+      height: 70px;
+    }
+
+    #header > ul{
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      align-items: center;
+    }
+
+    #header > ul > li {
+      flex: 1;
+      text-align: center;
+      font-size: 1.2em;
+    }
+
+    #hero{
+      width: 100%;
+      height: 100vw;
+      max-height: 80vh;
+      margin: 0;
+      background-size: cover !important;
+      background-position: center !important;
+      transition-timing-function: ease-in-out;
+      background-blend-mode: multiply;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="header">
+    <img src="logo.png" alt="">
+
+    <ul>
+      <li> Nosotros </li>
+      <li> Fundas para celular </li>
+      <li> Fundas para computadora </li>
+    </ul>
+
+
+  </div>
+
+
+  <div id="hero"></div>
+
+
+
+  <script>
+    async function getInstagramPosts(url){
+      let response = await fetch("https://instagram.com/"+url);
+      let html = await response.text();
+      let json = html.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1);
+      let posts = JSON.parse(json).entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.edges.map(l=>({
+        url: l.node.display_url,
+        caption: l.node.edge_media_to_caption.edges[0].node.text
+      }))
+
+
+
+      return posts
+    }
+
+
+    getInstagramPosts('luzviva.mx').then(data=>{
+
+      cycleBackgrounds( document.querySelector("#hero"), data.map(l=>l.url) )
+
+    })
+
+
+    function cycleBackgrounds(element, backgrounds){
+      element.style.background = `url('${backgrounds[0]}') rgba(0,0,0,0.7)`
+
+      let i = 1
+      setInterval(()=>{
+        if(i >= backgrounds.length){ i = 0 }
+        element.style.background = `url('${backgrounds[i]}') rgba(0,0,0,0.7)`
+        i++
+      }, 4000)
+    }
+
+
+
+  </script>
+
+
+  <h1>Work in progress...</h1>
+
+</body>
 </html>
