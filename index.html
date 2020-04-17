@@ -29,6 +29,10 @@
       width: 100%;
     }
 
+    footer{
+      padding: 16px;
+      padding-top: 64px;
+    }
 
     #header{
       background: white;
@@ -77,11 +81,15 @@
       font-size: 1.4em;
       padding: 24px;
       width: 100%;
-      max-width: 800px;
+      max-width: 1600px;
       margin: 24px 0px;
       text-align: center;
       box-sizing: border-box;
       height: 20vh;
+      background: rgb(240,240,240);
+      display: flex;
+      place-items: center;
+      justify-content: center;
     }
 
     #caption:empty{
@@ -99,10 +107,11 @@
     }
 
     section>h1{
-      font-size: 8em;
+      font-size: 6em;
       font-family: Michalina, cursive;
       font-weight: 400;
       margin: 0.25em 0em;
+      line-height: 0.9em;
     }
 
     section>*{
@@ -113,6 +122,22 @@
       font-size: 1.5em;
     }
 
+    section.wrapper{
+      padding: 0px;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
+
+    section.wrapper>section{
+      width: unset;
+      flex: 1;
+    }
+
+    section.wrapper>section>*{
+      max-width: unset;
+    }
 
     #info{
       justify-content: center;
@@ -124,6 +149,38 @@
       background-size: cover !important;
     }
 
+    #store{
+      text-align: center;
+      background: #F36BD8;
+      color: white;
+    }
+    #store>img{
+      width: 500px;
+    }
+
+    #social{
+      background: #836682;
+      color: white;
+      text-align: center;
+    }
+    #social span{
+      display: flex;
+      justify-content: space-around;
+    }
+    #social svg{
+      filter: invert(1);
+    }
+
+
+    @media only screen and (max-width: 700px){
+      section>h1{
+        font-size: 4em;
+        width: 100%;
+        text-align: left;
+      }
+    }
+
+
   </style>
 </head>
 <body>
@@ -131,9 +188,9 @@
     <img src="logo.png" alt="">
 
     <ul>
-      <li> Nosotros </li>
-      <li> Fundas para celular </li>
-      <li> Fundas para computadora </li>
+      <li> Uno </li>
+      <li> Dos </li>
+      <li> Tres </li>
     </ul>
 
 
@@ -189,9 +246,33 @@
     <span>
       Pintamos objetos de la vida cotidiana en los que se plasmamos algo especial para la persona, la mayoría de ellos son personalizados y acompañan al dueño en sus día a día. Nuestros objetos van desde fundas de celular, de computadora, llaveros, termos, lazy susans, entre otras cosas.
     </span>
-
-
   </section>
+
+  <section class="wrapper">
+      
+    <section id="store">
+      <h1>Tienda en línea</h1>
+      <img src="imgs/canastarosa.svg" alt="" srcset="">
+
+
+    </section>
+    <section id="social">
+      <h1>Redes sociales</h1>
+
+      <span>
+        <a href="http://facebook.com/luzviva.mx"><svg width="90" height="90"><image xlink:href="imgs/social/logo-facebook.svg" width="90" height="90"/></svg></a>
+        <a href="http://https://www.instagram.com/luzviva.mx/"><svg width="90" height="90"><image xlink:href="imgs/social/logo-instagram.svg" width="90" height="90"/></svg></a>
+      </span>
+
+      
+
+
+    </section>
+  </section>
+
+  <footer>
+    Luz Viva 2020
+  </footer>
 
 
 </body>
