@@ -25,6 +25,43 @@ class Store{
         this.cart.forEach(product=>{
             document.querySelector('#cart-cont').append(product.renderCartRow())
         })
+
+        let total = this.cart.map(l=>parseFloat(l._options.price.replace('$', ''))).reduce((a,b)=>a+b, 0)
+        let additionalCharges = {
+            'Envío': 10,
+            'IVA': 10
+        }
+
+        let extraCharges = document.createElement('div');
+        extraCharges.className = 'product_row';
+
+        let extraCharges_details = document.createElement('div');
+        extraCharges_details.setAttribute('name', 'details')
+        extraCharges_details.innerHTML = Object.keys(additionalCharges).join(' + ');
+
+        let extraCharges_price = document.createElement('div');
+        extraCharges_price.setAttribute('name', 'price');
+        extraCharges_price.innerHTML = "$"+Object.values(additionalCharges).reduce((a, b)=>a+b, 0)
+
+        extraCharges.append(extraCharges_details, extraCharges_price)
+        document.querySelector('#cart-cont').append(extraCharges)
+
+
+        let total_cont = document.createElement('div');
+        total_cont.className = 'total';
+        
+        let total_title = document.createElement('h2');
+        total_title.innerHTML = 'Total a pagar'
+        total_title.setAttribute('name', 'title')
+
+        let total_value = document.createElement('span');
+        total_value.setAttribute('name', 'total')
+        total_value.innerHTML = `$${total + Object.values(additionalCharges).reduce((a, b)=>a+b, 0)}`
+        total_cont.append(total_title, total_value);
+
+        document.querySelector('#cart-cont').append(total_cont)
+        
+
     }
 
 }
