@@ -125,7 +125,7 @@
             font-weight: 400;
         }
 
-        .product_page_details [name="add-to-cart"]{
+        .product_page_details [name="cart-status"]{
             padding: 16px;
             margin: 8px;
             flex: 1;
@@ -136,6 +136,10 @@
             color: white;
             font-size: 1.1em;
             border-radius: 8px;
+        }
+
+        .product_page_details [name="cart-status"].remove{
+            background: red;
         }
 
         .product_row{
@@ -168,6 +172,20 @@
         .product_row [name="price"]{
             font-size: 1.8em;
             margin-left: 16px;
+        }
+
+        .product_row [name="additional-details"]{
+            margin: 8px;
+            color: rgb(80,80,80);
+        }
+        .product_row [name="additional-details"] summary {
+            font-size: 1.2em;
+            margin: 4px 0px;
+        }
+        .product_row [name="additional-details"] p{
+            margin: 0px;
+            padding: 4px 0px;
+            border-bottom: 1px solid rgb(200,200,200);
         }
 
     </style>

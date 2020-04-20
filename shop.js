@@ -17,7 +17,6 @@ class Store{
     }
 
     addToCart(product){
-        alert('Se añadio')
         this.cart.push(product)
         this.showCart()
     }
@@ -57,7 +56,7 @@ class Product{
 
     }
 
-    renderPage(){
+    renderPage(inCart=false){
         let page = document.createElement('div');
         page.className = 'product_page'
 
@@ -94,17 +93,29 @@ class Product{
         price.setAttribute('name', 'price');
         price.innerText = this._options.price
 
-        let addToCart = document.createElement('button')
-        addToCart.setAttribute('name', 'add-to-cart');
-        addToCart.innerHTML = 'AÑADIR AL CARRITO'
+        details.append(close_btn, name, description, additional, price)
 
-        addToCart.addEventListener('click', ()=>{
-            __Store.addToCart(this)
-            __Store.showCart() 
-            page.remove()
-        })
 
-        details.append(close_btn, name, description, additional, price, addToCart)
+        if(!inCart){            
+            let addToCart = document.createElement('button')
+            addToCart.setAttribute('name', 'cart-status');
+            addToCart.className = 'add'
+
+            addToCart.innerHTML = 'AÑADIR AL CARRITO'
+
+            addToCart.addEventListener('click', ()=>{
+                __Store.addToCart(this)
+                __Store.showCart() 
+                page.remove()
+            })
+            details.append(addToCart)
+        } else if(!!inCart){
+            let removeFromCart = document.createElement('button')
+            removeFromCart.setAttribute('name', 'cart-status');
+            removeFromCart.className = 'remove'
+            removeFromCart.innerHTML = 'ELIMINAR DEL CARRITO'
+            details.append(removeFromCart)
+        }
 
         page.append(image, details)
 
@@ -131,13 +142,33 @@ class Product{
         details_name.setAttribute('name', 'name')
         details_name.textContent = this._options.name
 
-        details.append(details_name)
+
+        let details_details = document.createElement('details');
+        details_details.setAttribute('name', 'additional-details');
+
+        let details_details_summary = document.createElement('summary');
+        details_details_summary.innerHTML = "Detalles"
+
+        details_details.append(details_details_summary)
+        for (const key in this._options.details) {
+            let detail = document.createElement('p');
+            detail.innerHTML = `<strong>${key} :</strong> ${this._options.details[key]}`
+            details_details.append(detail)
+        }
+
+
+        details.append(details_name, details_details)
 
         let price = document.createElement('div');
         price.setAttribute('name', 'price');
         price.textContent = this._options.price
 
         row.append(picture, details, price)
+
+        row.addEventListener('click', ()=>{
+            //this.renderPage(true)
+        })
+
         return row
     }
 
