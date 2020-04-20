@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luz Viva MX</title>
+    <script src="shop.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+
+    <style>
+        #cart-cont{
+            background-color: whitesmoke;
+
+        }
+
+        #store-cont{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            font-family: Arial, Helvetica, sans-serif;
+            flex-direction: row;
+        }
+        #store-cont h1{
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .product_card{
+            color: white;
+            margin: 8px;
+            border: 1px solid rgb(200,200,200);
+            width: 100%;
+            max-width: 320px;
+            padding: 16px;
+            box-sizing: border-box;
+            height: 320px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+        }
+        .product_card:hover{
+            transform: scale(1.025);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.0625), 0 8px 12px rgba(0,0,0,0.125);
+        }
+        .product_card [name="name"]{
+            font-size: 1.2em;
+            margin: 4px
+        }
+        .product_card [name="price"]{
+            margin: 4px;
+            padding: 4px 8px;
+            background: rgb(160,160,160);
+            color: white;
+            display: inline-block;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 4px;
+        }
+
+
+        .product_page{
+            position: fixed;
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            top: 16px; left: 16px; right: 16px; bottom: 16px;
+            box-shadow: 0px 0px 16px 24px rgba(0,0,0,0.5);
+        }
+        .product_page .product_page_image, .product_page .product_page_details {
+            flex: 1;
+            padding: 16px;
+        }
+        .product_page_image{
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: auto
+        }
+        .product_page_details [name="btn-close"]{
+            height: 64px;
+            width: 64px;
+            margin: 16px;
+            border-radius: 32px;
+            background: rgb(160,160,160);
+            margin-left: auto;
+        }
+        .product_page_details [name="name"]{
+            font-size: 2.8em;
+            margin: 8px;
+        }
+        .product_page_details [name="description"]{
+            margin: 16px 8px;
+            font-size: 1.5em;
+        }
+
+        .product_page_details [name="additional-details"]{
+            margin: 8px;
+            background: rgb(240,240,240);
+            border-radius: 8px;
+            display: flex;
+        }
+        .product_page_details [name="additional-details"] .detail{
+            padding: 16px;
+            flex: 1;
+        }
+        .product_page_details [name="additional-details"] .detail span{
+            display: block;
+            text-align: center;
+        }
+
+        .product_page_details [name="additional-details"] .detail [name="detail_value"]{
+            font-size: 1.4em;
+        }
+        .product_page_details [name="additional-details"] .detail [name="detail_key"]{
+            font-weight: 600;
+        }
+
+        .product_page_details [name="price"]{
+            font-size: 3em;
+            margin: 24px 8px;
+            font-weight: 400;
+        }
+
+        .product_page_details [name="add-to-cart"]{
+            padding: 16px;
+            margin: 8px;
+            flex: 1;
+            font-weight: 600;
+            background: rgb(0,122,255);
+            border: none;
+            appearance: none;
+            color: white;
+            font-size: 1.1em;
+            border-radius: 8px;
+        }
+
+        .product_row{
+            background: white;
+            border: 0.5px solid rgb(200,200,200);
+            display: flex;
+            align-items: center;
+        }
+
+        .product_row>*{
+            margin: 8px;
+        }
+
+        .product_row [name="picture"]{
+            width: auto;
+            height: auto;
+            max-height: 120px;
+            max-width: 160px;
+        }
+
+        .product_row [name="details"]{
+            flex: 1;
+        }
+
+        .product_row [name="name"]{
+            margin: 0px;
+            font-size: 1.4em;
+        }
+
+        .product_row [name="price"]{
+            font-size: 1.8em;
+            margin-left: 16px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div id="header">
+        <img src="logo.png" alt="">
+        <ul>
+          <li> Uno </li>
+          <li> Dos </li>
+          <li> Tres </li>
+        </ul>
+    
+      </div>
+
+    <section id="store-cont">
+        <h1>Tienda</h1>
+    </section>
+
+    <section id="cart-cont">
+        <h1>Carrito</h1>
+    </section>
+
+    <script>
+        async function getData(){
+            let request = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRsups55Y4L25beVTJ2jPZUbhvfe7Ir1TXTgAA4ELyqh2JFu5zYHxclTj8-3Wqacvw5829WTRfcGT4i/pub?output=csv');
+            let response = await request.text()
+            return response;
+        }
+
+        let store = new Store();
+
+        getData().then(response=>{
+            let arr = response.split('\n');
+            let headers = arr[0].split(',')
+            let parsed = [];
+            arr.splice(0,1)
+            arr.forEach(l=>{
+                let stringRow = l.split(',');
+                let objRow = {}
+                stringRow.forEach((l,i)=>{  objRow[ headers[i] ] = l })
+                parsed.push(objRow)
+
+                store.addProduct( new Product({
+                    name: objRow['Nombre'],
+                    price: objRow['Precio'],
+                    image: objRow['Foto'],
+                    details: {
+                        'Modelo': objRow['Detalles: Modelo'],
+                        'Envío': objRow['Detalles: Envío\r']
+                    }
+                }) )
+
+            })
+            console.table(parsed); 
+            store.showProducts()
+            store.addToCart( store.products[0] )
+        })
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>
