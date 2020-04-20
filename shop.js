@@ -61,6 +61,36 @@ class Store{
 
         document.querySelector('#cart-cont').append(total_cont)
         
+        let hr = document.createElement('hr')
+        document.querySelector('#cart-cont').append(hr)
+
+        let form = document.createElement('form')
+        form.id = 'checkout'
+        form.innerHTML = `
+            <h2>Datos de envío</h2>
+            <div>
+                <legend>Nombre</legend>
+                <input name="checkout_name">
+            </div>
+
+            <div>
+                <legend>Apellido(s)</legend>
+                <input name="checkout_lastname">
+            </div>
+
+            <div>
+                <legend>Teléfono</legend>
+                <input name="checkout_phone" type="phone">
+            </div>
+
+            
+            <div>
+                <legend>Correo electrónico</legend>
+                <input name="checkout_email" type="email">
+            </div>
+        `
+        document.querySelector('#cart-cont').append(form)
+
 
     }
 
