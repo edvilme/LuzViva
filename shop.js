@@ -88,6 +88,16 @@ class Store{
                 <legend>Correo electrónico</legend>
                 <input name="checkout_email" type="email">
             </div>
+
+            <div>
+                <legend>Dirección</legend>
+                <input name="checkout_address" type="text">
+            </div>
+            
+            <div>
+                <legend>Código Postal</legend>
+                <input name="checkout_zip" type="text">
+            </div>
         `
         document.querySelector('#cart-cont').append(form)
 
