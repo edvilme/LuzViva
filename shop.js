@@ -2,6 +2,7 @@ let __Store;
 class Store{
     constructor(options){
         __Store = this;
+        this._options = options;
         this.products = []
 
         this.cart = []
@@ -64,45 +65,57 @@ class Store{
        
 
         let form = document.createElement('form')
+        form.action=this._options.checkoutAction
         form.id = 'checkout'
+        form.method='get'
         form.innerHTML = `
             <h2>Datos de envío</h2>
+
+            <input type="hidden" value="1" name="oderid">
+            <input type="hidden" value="${window.location.href}" name="redirect">
+
+            
             <div>
                 <legend>Nombre</legend>
-                <input name="checkout_name">
+                <input name="name">
             </div>
 
             <div>
                 <legend>Apellido(s)</legend>
-                <input name="checkout_lastname">
+                <input name="lastname">
             </div>
 
             <div>
                 <legend>Teléfono</legend>
-                <input name="checkout_phone" type="phone">
+                <input name="phone" type="phone">
             </div>
 
             
             <div>
                 <legend>Correo electrónico</legend>
-                <input name="checkout_email" type="email">
+                <input name="email" type="email">
             </div>
 
             <div>
                 <legend>Dirección</legend>
-                <input name="checkout_address" type="text">
+                <input name="address" type="text">
             </div>
             
             <div>
                 <legend>Código Postal</legend>
-                <input name="checkout_zip" type="text">
+                <input name="zipcode" type="text">
             </div>
+
+            <input type="hidden" name="products" value"${this.cart.map(l=>l._options.id).join(', ')}">
+
+            <input type="submit">
+
         `
         document.querySelector('#cart-cont').append(form)
 
         
 
-        paypal.Buttons().render(form);
+        //paypal.Buttons().render(form);
 
 
 

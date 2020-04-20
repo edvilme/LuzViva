@@ -229,7 +229,7 @@
 
         #checkout h2{
             margin: 8px;
-            max-width: 750px;
+            max-width: 800px;
             width: 100%;
         }
 
@@ -237,7 +237,7 @@
             padding: 16px 8px;
             font-size: 1.2em;
             font-weight: 6000;
-            max-width: 750px;
+            /* max-width: 800px; */
             width: 100%;
         }
 
@@ -274,6 +274,8 @@
             position: relative !important;
         }
 
+        
+
     </style>
 
 </head>
@@ -298,13 +300,21 @@
     </section>
     <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
     <script>
+
+        let clientid = '275158729856-a7hoh344g5o54artkp1150le9c1geqgv.apps.googleusercontent.com';
+        let secret = 'XqEWsRnnnl5nMZPTu7TtgpYO'
+        let apikey = 'AIzaSyB8okOHhOarrIpGopCO46gqZU29K2dLXDk'
+
+
         async function getData(){
             let request = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRsups55Y4L25beVTJ2jPZUbhvfe7Ir1TXTgAA4ELyqh2JFu5zYHxclTj8-3Wqacvw5829WTRfcGT4i/pub?output=csv');
             let response = await request.text()
             return response;
         }
 
-        let store = new Store();
+        let store = new Store({
+            checkoutAction: 'https://script.google.com/macros/s/AKfycbyoK3s8URHcW5iuttdiLBOW86VavA3xDab9bdxixO6JtzQPpg/exec'
+        });
 
         getData().then(response=>{
             let arr = response.split('\n');
@@ -318,6 +328,7 @@
                 parsed.push(objRow)
 
                 store.addProduct( new Product({
+                    id: objRow['id'], 
                     name: objRow['Nombre'],
                     price: objRow['Precio'],
                     image: objRow['Foto'],
