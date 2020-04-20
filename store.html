@@ -221,14 +221,22 @@
             font-size: 3em;
         }
 
+        #checkout{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         #checkout h2{
             margin: 8px;
+            width: 750px;
         }
 
         #checkout div{
             padding: 16px 8px;
             font-size: 1.2em;
             font-weight: 6000;
+            width: 750px;
         }
 
         #checkout input{
@@ -256,6 +264,14 @@
             }
         }
 
+        .paypal-buttons{
+            margin: 8px !important;
+        }
+
+        .paypal-buttons iframe{
+            position: relative !important;
+        }
+
     </style>
 
 </head>
@@ -278,7 +294,7 @@
     <section id="cart-cont">
         <h1>Carrito</h1>
     </section>
-
+    <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
     <script>
         async function getData(){
             let request = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRsups55Y4L25beVTJ2jPZUbhvfe7Ir1TXTgAA4ELyqh2JFu5zYHxclTj8-3Wqacvw5829WTRfcGT4i/pub?output=csv');

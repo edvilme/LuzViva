@@ -61,8 +61,7 @@ class Store{
 
         document.querySelector('#cart-cont').append(total_cont)
         
-        let hr = document.createElement('hr')
-        document.querySelector('#cart-cont').append(hr)
+       
 
         let form = document.createElement('form')
         form.id = 'checkout'
@@ -100,6 +99,11 @@ class Store{
             </div>
         `
         document.querySelector('#cart-cont').append(form)
+
+        
+
+        paypal.Buttons().render(form);
+
 
 
     }
