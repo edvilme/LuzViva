@@ -5,13 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luz Viva MX</title>
     <script src="shop.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
 
     <style>
+        body{
+            overflow: auto;
+            pointer-events: all;
+        }
+        body.overlay{
+            overflow: hidden;
+            pointer-events: none;
+        }
+
         #cart-cont{
             background-color: whitesmoke;
             padding: 8px;
+            position: fixed;
+            height: 100%;
+            max-width: 100%;
+            overflow: auto;
+            pointer-events: all;
         }
 
         #store-cont{
@@ -70,6 +86,8 @@
             top: 16px; left: 16px; right: 16px; bottom: 16px;
             box-shadow: 0px 0px 16px 24px rgba(0,0,0,0.5);
             overflow: auto;
+            pointer-events: all;
+
         }
         .product_page .product_page_image, .product_page .product_page_details {
             padding: 16px;
@@ -95,15 +113,24 @@
             width: 100%;
             flex-grow: 0;
         }
-
-        .product_page_details [name="btn-close"]{
+        .product_page_details [name="btn-close"], #cart-cont [name="btn-close"]{
             height: 64px;
             width: 64px;
-            margin: 16px;
             border-radius: 32px;
-            background: rgb(160,160,160);
+            margin: 16px 0px;
+            color: rgb(160,160,160);
             margin-left: auto;
+            flex-shrink: 0;
+            font-family: 'Material Icons';
+            text-align: center;
+            line-height: 64px;
+            font-size: 60px;
         }
+
+        [name="btn-close"]::before{
+            content: 'close';
+        }
+
         .product_page_details [name="name"]{
             font-size: 2.8em;
             margin: 8px;
@@ -206,7 +233,7 @@
             display: flex;
             margin: 16px 8px;
             border-top: 1px dashed black;
-            padding: 16px 8px;
+            padding: 16px 0px;
             align-items: center;
             box-sizing: border-box;
         }
@@ -225,6 +252,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+
         }
 
         #checkout h2{
@@ -276,35 +304,92 @@
 
         
 
+
+
+        header{
+            padding-top: 80px;
+            width: 100%;
+            background: rgb(220,220,220);
+            display: flex;
+            justify-content: center;
+
+        }
+        header>nav{
+            max-width: 1600px;
+            width: 100%;
+            display: flex;
+            box-sizing: border-box;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        header>nav>*{
+            margin: 8px 24px;
+        }
+        header>nav img{
+            height: 100px;
+            width: 100px;
+        }
+
+        header>nav h1{
+            flex: 1;
+            font-size: 6em;
+            font-family: Michalina, cursive;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        header>nav ul{
+            list-style: none;
+            display: flex;
+            align-items: center;
+            padding: 0px;
+            flex: 1;
+            font-size: 1.4em;
+        }
+        header ul li{
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+            padding: 8px;
+        }
+        header button{
+            font-size: inherit;
+            padding: inherit;
+            margin: inherit;
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
 
 </head>
 <body>
 
-    <div id="header">
-        <img src="logo.png" alt="">
-        <ul>
-          <li> Uno </li>
-          <li> Dos </li>
-          <li> Tres </li>
-        </ul>
-    
-      </div>
+
+    <header>
+        <nav>
+            <img src="logo.png" alt="">
+
+            <h1>Tienda</h1>
+            <ul>
+                <li> Uno </li>
+                <li> Dos </li>
+                <li id="cart-button"> <button>Carrito</button> </li>
+              </ul>
+        </nav>
+    </header>
+
 
     <section id="store-cont">
-        <h1>Tienda</h1>
     </section>
 
-    <section id="cart-cont">
-        <h1>Carrito</h1>
-    </section>
+    
     <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
     <script>
 
-        let clientid = '275158729856-a7hoh344g5o54artkp1150le9c1geqgv.apps.googleusercontent.com';
-        let secret = 'XqEWsRnnnl5nMZPTu7TtgpYO'
-        let apikey = 'AIzaSyB8okOHhOarrIpGopCO46gqZU29K2dLXDk'
-
+        
+        let store = new Store({
+            checkoutAction: 'https://script.google.com/macros/s/AKfycbyoK3s8URHcW5iuttdiLBOW86VavA3xDab9bdxixO6JtzQPpg/exec'
+        });
 
         async function getData(){
             let request = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRsups55Y4L25beVTJ2jPZUbhvfe7Ir1TXTgAA4ELyqh2JFu5zYHxclTj8-3Wqacvw5829WTRfcGT4i/pub?output=csv');
@@ -312,9 +397,6 @@
             return response;
         }
 
-        let store = new Store({
-            checkoutAction: 'https://script.google.com/macros/s/AKfycbyoK3s8URHcW5iuttdiLBOW86VavA3xDab9bdxixO6JtzQPpg/exec'
-        });
 
         getData().then(response=>{
             let arr = response.split('\n');
@@ -344,7 +426,9 @@
             store.addToCart( store.products[0] )
         })
 
-
+        document.querySelector('#cart-button').addEventListener('click', ()=>{
+            store.showCart()
+        })
 
 
 

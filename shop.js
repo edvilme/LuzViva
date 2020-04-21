@@ -19,12 +19,31 @@ class Store{
 
     addToCart(product){
         this.cart.push(product)
-        this.showCart()
+        //this.showCart()
     }
     showCart(){
-        document.querySelector('#cart-cont').innerHTML = `<h1>Carrito</h1>`
+        let container = document.createElement('section');
+        container.id = 'cart-cont';
+        container.innerHTML = ""
+
+        let close_btn_cont = document.createElement('div')
+
+        let close_btn = document.createElement('div');
+        close_btn.setAttribute('name', 'btn-close')
+        close_btn.addEventListener('click', ()=>{ 
+            container.remove() 
+            document.body.classList.remove('overlay')
+        })
+        close_btn_cont.append(close_btn)
+
+        let h1 = document.createElement('h1');
+        h1.textContent = 'Finalizar compra'
+
+        container.append(close_btn_cont, h1)
+
+
         this.cart.forEach(product=>{
-            document.querySelector('#cart-cont').append(product.renderCartRow())
+            container.append(product.renderCartRow())
         })
 
         let total = this.cart.map(l=>parseFloat(l._options.price.replace('$', ''))).reduce((a,b)=>a+b, 0)
@@ -45,7 +64,7 @@ class Store{
         extraCharges_price.innerHTML = "$"+Object.values(additionalCharges).reduce((a, b)=>a+b, 0)
 
         extraCharges.append(extraCharges_details, extraCharges_price)
-        document.querySelector('#cart-cont').append(extraCharges)
+        container.append(extraCharges)
 
 
         let total_cont = document.createElement('div');
@@ -60,7 +79,7 @@ class Store{
         total_value.innerHTML = `$${total + Object.values(additionalCharges).reduce((a, b)=>a+b, 0)}`
         total_cont.append(total_title, total_value);
 
-        document.querySelector('#cart-cont').append(total_cont)
+        container.append(total_cont)
         
        
 
@@ -73,6 +92,7 @@ class Store{
 
             <input type="hidden" value="1" name="oderid">
             <input type="hidden" value="${window.location.href}" name="redirect">
+            <input type="hidden" name="products" value"${this.cart.map(l=>l._options.id).join(', ')}">
 
             
             <div>
@@ -106,18 +126,19 @@ class Store{
                 <input name="zipcode" type="text">
             </div>
 
-            <input type="hidden" name="products" value"${this.cart.map(l=>l._options.id).join(', ')}">
-
-            <input type="submit">
+            <div>
+                <input type="submit">
+            </div>
 
         `
-        document.querySelector('#cart-cont').append(form)
+        container.append(form)
 
         
 
         //paypal.Buttons().render(form);
 
-
+        document.body.append(container)
+        document.body.classList.add('overlay')
 
     }
 
@@ -160,11 +181,16 @@ class Product{
 
         let details = document.createElement('div');
         details.className = 'product_page_details'
-
-
+        
+        
+        let close_btn_cont = document.createElement('div');
         let close_btn = document.createElement('div');
         close_btn.setAttribute('name', 'btn-close')
-        close_btn.addEventListener('click', ()=>{ page.remove() })
+        close_btn.addEventListener('click', ()=>{ 
+            page.remove() 
+            document.body.classList.remove('overlay')  
+        })
+        close_btn_cont.append(close_btn)
 
         let name = document.createElement('h1');
         name.setAttribute('name', 'name');
@@ -187,7 +213,7 @@ class Product{
         price.setAttribute('name', 'price');
         price.innerText = this._options.price
 
-        details.append(close_btn, name, description, additional, price)
+        details.append(close_btn_cont, name, description, additional, price)
 
 
         if(!inCart){            
@@ -199,8 +225,8 @@ class Product{
 
             addToCart.addEventListener('click', ()=>{
                 __Store.addToCart(this)
-                __Store.showCart() 
                 page.remove()
+                document.body.classList.remove('overlay')
             })
             details.append(addToCart)
         } else if(!!inCart){
@@ -216,6 +242,7 @@ class Product{
 
         //page.append(close_btn, name);
         document.body.append(page)
+        document.body.classList.add('overlay')
     }
 
     renderCartRow(){
