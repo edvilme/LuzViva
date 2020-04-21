@@ -61,6 +61,7 @@
         .product_card:hover{
             transform: scale(1.025);
             box-shadow: 0 1px 2px rgba(0,0,0,0.0625), 0 8px 12px rgba(0,0,0,0.125);
+            background-size: 110% 110%;
         }
         .product_card [name="name"]{
             font-size: 1.2em;
@@ -149,6 +150,9 @@
         .product_page_details [name="additional-details"] .detail{
             padding: 16px;
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .product_page_details [name="additional-details"] .detail span{
             display: block;
@@ -278,6 +282,10 @@
         }
 
         @media screen and (max-width: 800px){
+            .product_card{
+                max-width: 240px;
+                height: 240px;
+            }
             .product_page{
                 top: 0; left: 0; right: 0; bottom: 0;
                 align-content: flex-start;
@@ -416,7 +424,8 @@
                     image: objRow['Foto'],
                     details: {
                         'Modelo': objRow['Detalles: Modelo'],
-                        'Envío': objRow['Detalles: Envío\r']
+                        'Envío': objRow['Detalles: Envío'],
+                        'Existencia': objRow['Detalles: Existencia\r']
                     }
                 }) )
 
