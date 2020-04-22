@@ -11,7 +11,52 @@
 
 
     <style>
+
+        :root{
+            --font-size-description: 1rem;
+            --font-size-normal: 1.2rem;
+            --font-size-emphasis: 1.4rem;
+            --font-size-emphasis-medium: 1.6rem;
+            --font-size-emphasis-giant: 4rem;
+
+            --font-size-title-1: 2.4rem;
+            --font-size-title-2: 1.4rem;
+
+            --color-primary: black;
+            --color-secondary: #7d7d7d;
+
+            --background-sheet: white;
+            --background-sheet-secondary: #f5f5f5;
+            --background-sheet-inset: #f0f0f0;
+
+            --border-color-light: #dcdcdc;
+
+            --blue: rgb(0, 122, 255)
+
+        }
+
+        @media screen and (max-width: 800px){
+            :root{
+                --font-size-title-2: 1.2rem
+            }
+        }
+        /*
+            --background-sheet: #303030;
+
+        */
+
+
+
+
+
+
+
+
+
+
+
         body{
+            color: var(--color-primary);
             overflow: auto;
             pointer-events: all;
         }
@@ -21,13 +66,18 @@
         }
 
         #cart-cont{
-            background-color: whitesmoke;
+            background-color: var(--background-sheet-secondary);
             padding: 8px;
             position: fixed;
             height: 100%;
             max-width: 100%;
             overflow: auto;
             pointer-events: all;
+            z-index: 2;
+        }
+
+        #cart-cont>*{
+            flex-shrink: 0;
         }
 
         #store-cont{
@@ -36,16 +86,14 @@
             justify-content: space-around;
             font-family: Arial, Helvetica, sans-serif;
             flex-direction: row;
-        }
-        #store-cont h1{
-            width: 100%;
-            max-width: 100%;
+            padding: 0px;
         }
 
+
         .product_card{
+            border: 1px solid var(--border-color-light);
             color: white;
             margin: 8px;
-            border: 1px solid rgb(200,200,200);
             width: 100%;
             max-width: 320px;
             padding: 16px;
@@ -64,31 +112,32 @@
             background-size: 110% 110%;
         }
         .product_card [name="name"]{
-            font-size: 1.2em;
+            font-size: var(--font-size-normal);
             margin: 4px
         }
         .product_card [name="price"]{
+            font-size: var(--font-size-normal);
+
             margin: 4px;
             padding: 4px 8px;
             background: rgb(160,160,160);
             color: white;
             display: inline-block;
-            font-size: 1.1em;
             font-weight: 600;
             border-radius: 4px;
         }
 
 
         .product_page{
+            background: var(--background-sheet);
             position: fixed;
-            background: white;
             display: flex;
             flex-wrap: wrap;
             top: 16px; left: 16px; right: 16px; bottom: 16px;
             box-shadow: 0px 0px 16px 24px rgba(0,0,0,0.5);
             overflow: auto;
             pointer-events: all;
-
+            z-index: 2;
         }
         .product_page .product_page_image, .product_page .product_page_details {
             padding: 16px;
@@ -115,11 +164,11 @@
             flex-grow: 0;
         }
         .product_page_details [name="btn-close"], #cart-cont [name="btn-close"]{
+            color: var(--color-secondary);
             height: 64px;
             width: 64px;
             border-radius: 32px;
             margin: 16px 0px;
-            color: rgb(160,160,160);
             margin-left: auto;
             flex-shrink: 0;
             font-family: 'Material Icons';
@@ -133,17 +182,17 @@
         }
 
         .product_page_details [name="name"]{
-            font-size: 2.8em;
+            font-size: var(--font-size-title-1);
             margin: 8px;
         }
         .product_page_details [name="description"]{
+            font-size: var(--font-size-emphasis);
             margin: 16px 8px;
-            font-size: 1.5em;
         }
 
         .product_page_details [name="additional-details"]{
+            background: var(--background-sheet-inset);
             margin: 8px;
-            background: rgb(240,240,240);
             border-radius: 8px;
             display: flex;
         }
@@ -160,28 +209,34 @@
         }
 
         .product_page_details [name="additional-details"] .detail [name="detail_value"]{
-            font-size: 1.4em;
+            font-size: var(--font-size-emphasis);
         }
         .product_page_details [name="additional-details"] .detail [name="detail_key"]{
+            color: #7d7d7d;
+            font-size: var(--font-size-normal);
             font-weight: 600;
         }
 
         .product_page_details [name="price"]{
-            font-size: 3em;
+            color: var(--color-secondary);
+            font-size: var(--font-size-emphasis-giant);
             margin: 24px 8px;
             font-weight: 400;
         }
 
         .product_page_details [name="cart-status"]{
+
+            font-size: var(--font-size-normal);
+            background: var(--blue);
+
             padding: 16px;
             margin: 8px;
             font-weight: 600;
-            background: rgb(0,122,255);
             border: none;
             appearance: none;
             color: white;
-            font-size: 1.1em;
             border-radius: 8px;
+            box-sizing: border-box;
         }
 
         .product_page_details [name="cart-status"].remove{
@@ -189,8 +244,8 @@
         }
 
         .product_row{
-            background: white;
-            border: 0.5px solid rgb(220,220,220);
+            border: 0.5px solid var(--border-color-light);
+            background: var(--background-sheet);
             display: flex;
             align-items: center;
         }
@@ -203,7 +258,7 @@
             width: auto;
             height: auto;
             max-height: 120px;
-            max-width: 160px;
+            max-width: 120px;
         }
 
         .product_row [name="details"]{
@@ -211,45 +266,47 @@
         }
 
         .product_row [name="name"]{
+            font-size: var(--font-size-title-2);
             margin: 0px;
-            font-size: 1.4em;
         }
 
         .product_row [name="price"]{
-            font-size: 1.8em;
+            font-size: var(--font-size-emphasis-medium);
             margin-left: 16px;
         }
 
         .product_row [name="additional-details"]{
-            margin: 8px;
-            color: rgb(80,80,80);
+           color: var(--color-secondary);
         }
         .product_row [name="additional-details"] summary {
-            font-size: 1.2em;
+            font-size: var(--font-size-normal);
             margin: 4px 0px;
         }
         .product_row [name="additional-details"] p{
+            font-size: var(--font-size-description);
             margin: 0px;
             padding: 4px 0px;
         }
 
         #cart-cont .total{
+            border-top: 1px dashed var(--color-primary);
+            color: var(--color-primary);
             display: flex;
             margin: 16px 8px;
-            border-top: 1px dashed black;
             padding: 16px 0px;
             align-items: center;
             box-sizing: border-box;
         }
 
         #cart-cont .total [name="title"]{
+            font-size: var(--font-size-emphasis-medium);
             flex: 1;
             margin: 0;
         }
 
         #cart-cont .total [name="total"]{
+            font-size: var(--font-size-emphasis-giant);
             font-weight: 600;
-            font-size: 3em;
         }
 
         #checkout{
@@ -260,17 +317,23 @@
         }
 
         #checkout h2{
+            font-size: var(--font-size-emphasis-medium);
             margin: 8px;
             max-width: 800px;
             width: 100%;
         }
 
         #checkout div{
+
             padding: 16px 8px;
-            font-size: 1.2em;
-            font-weight: 6000;
             /* max-width: 800px; */
             width: 100%;
+        }
+
+        #checkout legend{
+            color: var(--color-secondary);
+            font-size: var(--font-size-emphasis);
+            font-weight: 600;
         }
 
         #checkout input{
@@ -279,12 +342,24 @@
             font-size: 1.2em;
             box-sizing: border-box;
             width: 100%;
+            border: 0.5px solid var(--color-secondary);
         }
+
+        
+
+
+
+
+
+
+
+
+
 
         @media screen and (max-width: 800px){
             .product_card{
-                max-width: 240px;
-                height: 240px;
+                max-width: 100%;
+                height: 100vw;
             }
             .product_page{
                 top: 0; left: 0; right: 0; bottom: 0;
@@ -299,7 +374,13 @@
             }
             .product_page .product_page_details{
                 width: 100%;
+                min-width: auto;
             }
+            .product_row [name="picture"]{
+                max-width: 80px;
+                max-height: 80px;
+            }
+
         }
 
         .paypal-buttons{
@@ -314,59 +395,21 @@
 
 
 
-        header{
-            padding-top: 80px;
-            width: 100%;
-            background: rgb(220,220,220);
-            display: flex;
-            justify-content: center;
+        
 
-        }
-        header>nav{
-            max-width: 1600px;
-            width: 100%;
-            display: flex;
-            box-sizing: border-box;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        header>nav>*{
-            margin: 8px 24px;
-        }
-        header>nav img{
-            height: 100px;
-            width: 100px;
-        }
 
-        header>nav h1{
-            flex: 1;
-            font-size: 6em;
-            font-family: Michalina, cursive;
-            font-weight: 400;
-            line-height: 1;
-        }
+       #cart-button button{
+           background: var(--blue);
+           font-size: var(--font-size-normal);
+           font-weight: 600;
+           color: white;
+           border-radius: 4px;
+       }
 
-        header>nav ul{
-            list-style: none;
-            display: flex;
-            align-items: center;
-            padding: 0px;
-            flex: 1;
-            font-size: 1.4em;
-        }
-        header ul li{
-            flex: 1;
-            min-width: 60px;
-            text-align: center;
-            padding: 8px;
-        }
-        header button{
-            font-size: inherit;
-            padding: inherit;
-            margin: inherit;
-            width: 100%;
-            box-sizing: border-box;
-        }
+       header{
+           color: white;
+           background: #F50087;
+       }
     </style>
 
 </head>

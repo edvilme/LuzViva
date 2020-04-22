@@ -49,6 +49,75 @@
         text-align: center;
         font-size: 1.2em;
       }
+
+
+
+      header{
+        padding-top: 80px;
+        width: 100%;
+        background: rgb(220,220,220);
+        display: flex;
+        justify-content: center;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 1
+    }
+    header>nav{
+        max-width: 1600px;
+        width: 100%;
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    header>nav>*{
+        margin: 0px 24px;
+    }
+    header>nav img{
+        height: 100px;
+        width: 100px;
+    }
+
+    header>nav h1{
+        flex: 1;
+        font-size: 6em;
+        font-family: Michalina, cursive;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    header>nav ul{
+        list-style: none;
+        display: flex;
+        align-items: center;
+        padding: 0px;
+        flex: 1;
+        font-size: 1.4em;
+    }
+    header ul li{
+        flex: 1;
+        min-width: 60px;
+        text-align: center;
+        padding: 8px;
+    }
+    header button{
+        font-size: inherit;
+        padding: inherit;
+        margin: inherit;
+        width: 100%;
+        box-sizing: border-box;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        border: none;
+    }
+   @media only screen and (max-width: 800px) {
+       header{
+           padding: 0px;
+       }
+   } 
+
+
   
       #hero{
         width: 100%;
